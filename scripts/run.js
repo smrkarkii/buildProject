@@ -4,18 +4,26 @@ const main = async () => {
   const waveContract = await waveContractFactory.deploy();
   await waveContract.deployed();
   console.log("deployed at ", waveContract.address);
+  let noOfWaves;
 
   await waveContract.getnoofwaves();
 
-  const wavetxn = await waveContract.wave();
+  const wavetxn = await waveContract.wave("Hello there");
   await wavetxn.wait();
 
-  await waveContract.getnoofwaves();
+  noOfWaves = await waveContract.getnoofwaves();
+  console.log(noOfWaves);
 
-  const secondWaveTxn = await waveContract.connect(randomPerson).wave();
+  const secondWaveTxn = await waveContract
+    .connect(randomPerson)
+    .wave("I am a random person");
   await secondWaveTxn.wait();
 
-  await waveContract.getnoofwaves();
+  noOfWaves = await waveContract.getnoofwaves();
+  console.log(noOfWaves);
+  let allWaves = waveContract.connect(randomPerson).getWaves();
+
+  console.log(allWaves);
 };
 
 const runmain = async () => {
